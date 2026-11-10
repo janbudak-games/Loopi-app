@@ -1,0 +1,10 @@
+
+{
+  "name": "LOOPI",
+  "short_name": "LOOPI",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090914",
+  "theme_color": "#090914",
+  "icons": []
+}
