@@ -103,5 +103,10 @@ function showFeed(){document.querySelector(".post").scrollIntoView({behavior:"sm
 function showProfile(){document.getElementById("profileName").scrollIntoView({behavior:"smooth"});}
 render();
 </script>
+ <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+ </script>
 </body>
 </html>
