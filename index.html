@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090914">
+<title>LOOPI</title>
+<link rel="manifest" href="manifest.json">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090914;color:white;font-family:Arial,sans-serif}
+header{padding:20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #25243b}
+.logo{font-size:29px;font-weight:900;color:#a78bfa}
+main{max-width:650px;margin:auto;padding:20px}
+.card{background:#171629;border:1px solid #302d4d;padding:20px;border-radius:20px;margin-bottom:18px}
+input{width:100%;padding:15px;background:#24223b;border:1px solid #48436c;border-radius:12px;color:white;font-size:16px;margin:10px 0}
+button{background:#8b5cf6;color:white;border:0;border-radius:12px;padding:13px 18px;font-weight:bold;cursor:pointer}
+button:hover{background:#7041d5}
+nav{display:flex;justify-content:space-around;position:sticky;bottom:0;background:#111020;padding:16px;border-top:1px solid #302d4d}
+nav button{background:transparent;font-size:14px}
+.hidden{display:none}
+.avatar{width:75px;height:75px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:grid;place-items:center;font-size:28px;font-weight:bold}
+.verified{color:#55aaff;font-weight:bold}
+.muted{color:#aaa7c5}
+.post{height:230px;background:linear-gradient(135deg,#30215b,#171629);border-radius:15px;display:grid;place-items:center;font-size:25px;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">LOOPI</div>
+ <span class="muted">Create your moment</span>
+</header>
+
+<main>
+<section id="login" class="card">
+ <h1>Welcome to LOOPI</h1>
+ <p class="muted">Choose your username to enter</p>
+ <input id="username" placeholder="Your username" maxlength="20">
+ <button onclick="login()">Join LOOPI</button>
+</section>
+
+<section id="app" class="hidden">
+ <div class="card">
+  <h2>For You</h2>
+  <p class="muted">Discover moments from LOOPI</p>
+  <div class="post">Your feed starts here</div>
+  <br>
+  <button onclick="like()">❤️ Like <span id="likes">0</span></button>
+ </div>
+
+ <div class="card">
+  <h2>Your profile</h2>
+  <div class="avatar" id="avatar">J</div>
+  <h2 id="profileName"></h2>
+  <p id="verification"></p>
+  <p><b id="followers">0</b> followers</p>
+  <p class="muted">Welcome to LOOPI!</p>
+  <button onclick="logout()">Log out</button>
+ </div>
+</section>
+</main>
+
+<nav>
+ <button onclick="showFeed()">Home</button>
+ <button onclick="showProfile()">Profile</button>
+ <button onclick="alert('Video upload coming soon!')">＋ Create</button>
+</nav>
+
+<script>
+let currentUser=localStorage.getItem("loopiUser");
+let likes=0;
+
+function isFounder(name){
+ return name.toLowerCase()==="jan";
+}
+function login(){
+ let name=document.getElementById("username").value.trim();
+ if(!name){alert("Enter a username");return;}
+ localStorage.setItem("loopiUser",name);
+ currentUser=name;
+ render();
+}
+function render(){
+ document.getElementById("login").classList.toggle("hidden",!!currentUser);
+ document.getElementById("app").classList.toggle("hidden",!currentUser);
+ if(!currentUser)return;
+ document.getElementById("profileName").textContent=currentUser;
+ document.getElementById("avatar").textContent=currentUser[0].toUpperCase();
+ document.getElementById("verification").innerHTML=
+ isFounder(currentUser)?'<span class="verified">✓ Verified Founder</span>':'<span class="muted">New LOOPI member</span>';
+}
+function logout(){
+ localStorage.removeItem("loopiUser");
+ currentUser=null;
+ render();
+}
+function like(){
+ likes++;
+ document.getElementById("likes").textContent=likes;
+}
+function showFeed(){document.querySelector(".post").scrollIntoView({behavior:"smooth"});}
+function showProfile(){document.getElementById("profileName").scrollIntoView({behavior:"smooth"});}
+render();
+</script>
+</body>
+</html>
